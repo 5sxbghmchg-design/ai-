@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<body>
+<h2>AI画像生成</h2>
+
+<input id="prompt" placeholder="例：猫">
+<button onclick="generate()">生成</button>
+
+<p id="status"></p>
+<img id="result" width="300">
+
+<script>
+async function generate() {
+const text = document.getElementById("prompt").value;
+document.getElementById("status").innerText = "生成中…";
+
+const res = await fetch("http://localhost:3000/generate", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ prompt: text })
+});
+
+const blob = await res.blob();
+document.getElementById("result").src =
+URL.createObjectURL(blob);
+
+document.getElementById("status").innerText = "完成！";
+}
+</script>
+</body>
+</html>
